@@ -62,7 +62,10 @@ rust_library(
         "//src/google/protobuf:__subpackages__",
         "//rust:__subpackages__",
     ],
-    deps = ["//rust/upb_kernel:upb_c_api"],
+    deps = [
+        ":utf8",
+        "//rust/upb_kernel:upb_c_api",
+    ],
 )
 
 rust_test(
@@ -98,6 +101,7 @@ rust_library(
         "//src/google/protobuf:__subpackages__",
         "//rust:__subpackages__",
     ],
+    deps = [":utf8"],
 )
 
 rust_test(
@@ -108,6 +112,12 @@ rust_test(
         # TODO(b/270274576): Enable testing on arm once we have a Rust Arm toolchain.
         "not_build:arm",
     ],
+)
+
+rust_library(
+    name = "utf8",
+    srcs = ["utf8.rs"],
+    visibility = ["//visibility:private"],
 )
 
 proto_lang_toolchain(
