@@ -92,6 +92,10 @@ std::vector<Sub> Vars(const FieldDescriptor* field, const Options& opts,
                                    "reinterpret_cast<const $0&>($1));\n",
                                    type, default_ref))
           .WithSuffix(";"),
+      Sub("ARENA_DEPRECATED",
+                  field->options().deprecated()
+              ? "[[deprecated]] "
+              : ""),
   };
 }
 
@@ -170,8 +174,8 @@ void SingularMessage::GenerateAccessorDeclarations(io::Printer* p) const {
     $DEPRECATED$ PROTOBUF_NODISCARD $Submsg$* $release_name$();
     $DEPRECATED$ $Submsg$* $mutable_name$();
     $DEPRECATED$ void $set_allocated_name$($Submsg$* value);
-    $DEPRECATED$ void $unsafe_arena_set_allocated_name$($Submsg$* value);
-    $DEPRECATED$ $Submsg$* $unsafe_arena_release_name$();
+    $ARENA_DEPRECATED$ void $unsafe_arena_set_allocated_name$($Submsg$* value);
+    $ARENA_DEPRECATED$ $Submsg$* $unsafe_arena_release_name$();
 
     private:
     const $Submsg$& _internal_$name$() const;
